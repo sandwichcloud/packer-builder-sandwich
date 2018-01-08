@@ -1,0 +1,8 @@
+package: github.com/sandwichcloud/packer-builder-sandwich
+import:
+- package: github.com/hashicorp/packer
+  version: 1.1.3
+- package: github.com/mitchellh/multistep
+  version: 391576a156a54cfbb4cf5d5eda40cf6ffa3e3a4d
+- package: github.com/sandwichcloud/deli-cli
+  version: 0.0.8
