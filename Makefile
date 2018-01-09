@@ -21,9 +21,18 @@ build: ## build the go packages
 	@echo "Running $@"
 	@go build -i -ldflags "-X main.Version=${VERSION}" -o bin/${BINARY} .
 
-build-linux: ## build the go packages for Linux (useful to copy the binary into docker)
+
+build-linux: ## build the go packages for Linux
 	@echo "Running $@"
-	@GOOS=linux GOARCH=amd64 go build -i -ldflags "-X main.Version=${VERSION}" -o bin/${BINARY} .
+	@GOOS=linux GOARCH=amd64 go build -i -ldflags "-X main.Version=${VERSION}" -o bin/${BINARY}_linux_amd64 .
+
+build-osx: ## build the go packages for OSX
+	@echo "Running $@"
+	@GOOS=darwin GOARCH=amd64 go build -i -ldflags "-X main.Version=${VERSION}" -o bin/${BINARY}_darwin_amd64 .
+
+build-windows: ## build the go packages for Windows
+	@echo "Running $@"
+	@GOOS=windows GOARCH=amd64 go build -i -ldflags "-X main.Version=${VERSION}" -o bin/${BINARY}_windows_amd64.exe .
 
 test: ## run test
 	@echo "Running $@"

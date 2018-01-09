@@ -1,0 +1,20 @@
+language: go
+go:
+- 1.8
+install:
+- curl https://glide.sh/get | sh
+- glide install -v
+script:
+  - |
+    make build-linux;
+    make build-windows;
+    make build-osx;
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: dRO5/n2nVLk+Yvj9AIwrKIu6wRygb5WpewGaes72Q/lp7PIHp5cgBOXOjcJTVzKD6XQXGXnHghS+FLcEx5eDGdmt0KebdF1FJ7IjbmP0qtFWUSjONLqQpBddH2OrP4I+nbDwzoZvIdN1+64l9fF2r54PDepJpa3q6lLhYNGAlQu9fazpLb96QhrvPQbvJ6+c3s5qcFiwoFukOyqR6frXf5m56RY8RuaPMBXR4eg78XV/FNswpOdEFhGoUnzAJGpMwMd5+jMESpM7Mci1zvLv5lFnBICMo5gNgWvfUp+Qeo7e3BfqnOuE2+eiPSkMrfJ/kEBxt2dZ5cxHC/Xs4nbii+vq+Wv9LPp2WkpaZeqDXdeemxd8UZ+wEFKf+CLkmt7rPV6AmIYO00TJ97+naz/wx5hTWEvbaMDTSREXHbAjbGWCKINJfutZxqExWnCOf/1Jog+KqKtmtiO/JAFiPaoyLCBgxWthUtrbjp76JChvRwhO495KvWVNR2I/HoolB2Z2mVON0j7fVL7AMN1+Xci/0n39F65GbXmXSDMpbl3QS/iL+0tH3ywfdsYK6IBBPFflA4kQLNuXjLku5K3od05V1GZTsIovQcJZEZfzRPCeDCPbKXhxG1f/fReY/puK7n8jgL6udZpp+gcdALFPYO2XNq8i3Abasd33lmz3XBYQtbw=
+  file_glob: true
+  file: bin/*
+  on:
+    tags: true

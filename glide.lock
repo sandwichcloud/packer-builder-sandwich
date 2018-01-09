@@ -1,5 +1,5 @@
-hash: 1e4417237ea75206a0d6acfacdd48357061d392ed9a5bc0c65599f627d975f96
-updated: 2018-01-08T09:20:35.3137366-06:00
+hash: a82b303eaec38aef73470f1d33eb82b7c3fb7c146592150691a6a0301902286f
+updated: 2018-01-09T08:56:04.5642862-06:00
 imports:
 - name: github.com/Azure/go-ntlmssp
   version: c92175d540060095c69ced311f76aea56c83ecdb
@@ -96,7 +96,7 @@ imports:
 - name: github.com/pkg/sftp
   version: 30b632cf56a40e07133af5255a01cadc216933ec
 - name: github.com/sandwichcloud/deli-cli
-  version: d9f7e15a744e5c2c9a3a67151d3a758c8c268438
+  version: 2fb69365253f8bff2b40b68fd15123093ad54ef1
   subpackages:
   - api
   - api/client
