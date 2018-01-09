@@ -1,14 +1,30 @@
 language: go
 go:
 - 1.8
+services:
+- docker
+addons:
+  apt:
+    packages:
+      - docker-ce
 install:
+- docker --version
 - curl https://glide.sh/get | sh
 - glide install -v
+env:
+  global:
+    - secure: ScdUJ+bJlz3S0ks6zC2SF15MwCy8nxf7HH9TkaRQJqyq4F2fNQKw9q2d0FVKJlqgQo/bUHflxT+G4LIGrElsQ6kb+3KeWGLQnlaLMewX1ot3pCVKx0K9kklFpmI3P/EHqkC4Cs7r1ZrU4SZ+KeNQ67hAfIenFjLKZH88lSe2cBD3Dd/+iLLD6lQ23NHmenwmE7uE5hfEo0Z1genTTMQjH49TYTmJ3Y6grZs0C/uQEQ6bVgXso/uIv8u+9h1EOLsa4ZHmXtS4G4T2wYh9k6r13iHArB6aQwLkVrbFiOzeCMEDjbUK//5R5lzPK3MeEA5BLLRhcj8EBaKdAA56gvr5S8qxAfQmLbJ1ryS2hoe1NAnYP/9voORJUNYVaSmiII4MpbKJSjay7huKhZ/NtBHq1RnFi9kjKhq1MWeM6p7sbNv6K0C9jkY1SXITReHxE1ITZc27JC8Xo6/gugNrhfOWGVhLJubLEFeQcR0u+myrZ8KvkldUrd52/G/BXcBCxC4i9wXVxRU5OWEMvzi8KQuG6oFsO6UEcNRzz+ELNlwwMGxNEh2fp4Lpun6XRmg4Mqq6U5P/XGGMaYI4f/jkXSNegVzMjv2JVJchF7Mee+maQeemdHL2DiuRI+gm3ygRxtejUkgJUrLYMo6swoiO5b7Vps04vpwnyZZ0aXOizREwDyw=
+    - secure: PMt0S+H1n/dopeaCjEW8NF7K/Gqwj4aE98rT04YWBpSmi84oqFDCX+C66Dk3JOS4yr7Qu9V0r9m3aZw02aT7iWwcSNHhMHSalq9CcMTvyn6IINADlQ9ADVQxp0jm99iSZO3k6JVG4hTOabXvysMkkaDbdGmLU3GhYrIaji3yIODWyK6ft7dhhZkewsRLXLVYXu8mIn2lnyy3clGy9nifpSf4J4Xm/5xYrDg24A1X4qWgcHyekjaOWvYONUe0m3MXTwSTLswqn8dNq9beHptJm4KvrU5JU/4lSJvp6Ut6l1cs0T5k4h8FZextGT4M4kMXwWIFLx5IqWy50Q/BMFlgIWjZirInjyG9QR87bVLr0jZFKWDzqbhded5KNZKndEW8vFtoxRoAJluTes+ARNJzNZje7Sp0M9vqlQ+oMoN5D82uiUDwGgLs2Q0t1VzY1U860sSWilWXnC5uezKhidPjCDcKDwJ0/FUOWoyEawQN/giZTAX3esMvFdMgBg7RimEjolyl0/Zoh+ShrL/+KSSHpPku8QCTPvAyuhUh/LqyYmXU6viIkPV+qS5Yj/liPnYksAmkoiO255WkUdZ+NuZM+/UWQ5WJGI1D/6o48D2IUZg+c3JkydIY3ubHip3cv9EMmJgUxZmG9hWP1xs3xpG6losN+1RchSqae5E8D3pGnRE=
 script:
-  - |
-    make build-linux;
-    make build-windows;
-    make build-osx;
+  - make build-linux
+  - make build-windows
+  - make build-osx
+  - docker build -t sandwichcloud/packer-builder-sandwich:latest .
+  - if [ -n "$TRAVIS_TAG" ]; then  docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"; fi
+  - if [ -n "$TRAVIS_TAG" ]; then  docker tag sandwichcloud/packer-builder-sandwich:latest "sandwichcloud/packer-builder-sandwich:$TRAVIS_TAG"; fi
+  - if [ -n "$TRAVIS_TAG" ]; then  docker push "sandwichcloud/packer-builder-sandwich:$TRAVIS_TAG"; fi
+  - if [ -n "$TRAVIS_TAG" ]; then  docker push sandwichcloud/packer-builder-sandwich:latest; fi
+
 deploy:
   provider: releases
   skip_cleanup: true
