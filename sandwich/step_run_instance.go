@@ -11,6 +11,8 @@ import (
 
 type StepRunInstance struct {
 	Name          string
+	FlavorID      string
+	Disk          int
 	SourceImageID string
 	NetworkID     string
 	UserData      string
@@ -42,7 +44,7 @@ func (s *StepRunInstance) Run(state multistep.StateBag) multistep.StepAction {
 		s.Tags = make(map[string]string)
 	}
 
-	instance, err := instanceClient.Create(s.Name, s.SourceImageID, config.RegionID, "", s.NetworkID, "", keyPairIDs, s.Tags)
+	instance, err := instanceClient.Create(s.Name, s.SourceImageID, config.RegionID, "", s.NetworkID, "", s.FlavorID, s.Disk, keyPairIDs, s.Tags)
 	if err != nil {
 		err := fmt.Errorf("Error creating source instance: %s", err)
 		state.Put("error", err)

@@ -16,6 +16,7 @@ type RunConfig struct {
 
 	SourceImageID string            `mapstructure:"source_image_id"`
 	FlavorID      string            `mapstructure:"flavor_id"`
+	Disk          int               `mapstructure:"disk"`
 	NetworkID     string            `mapstructure:"network_id"`
 	UserData      string            `mapstructure:"user_data"`
 	Tags          map[string]string `mapstructure:"tags"`
@@ -49,9 +50,9 @@ func (c *RunConfig) Prepare(ctx *interpolate.Context) []error {
 		errs = append(errs, errors.New("network_id must be specified"))
 	}
 
-	//if c.FlavorID == "" {
-	//	errs = append(errs, errors.New("flavor_id must be specified"))
-	//}
+	if c.FlavorID == "" {
+		errs = append(errs, errors.New("flavor_id must be specified"))
+	}
 
 	return errs
 }

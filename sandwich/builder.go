@@ -65,6 +65,8 @@ func (builder *Builder) Run(ui packer.Ui, hook packer.Hook, cache packer.Cache) 
 		},
 		&StepRunInstance{
 			Name:          builder.config.ImageName,
+			FlavorID:      builder.config.FlavorID,
+			Disk:          builder.config.Disk,
 			SourceImageID: builder.config.SourceImageID,
 			NetworkID:     builder.config.NetworkID,
 			UserData:      builder.config.UserData,

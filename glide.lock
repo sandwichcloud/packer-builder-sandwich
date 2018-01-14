@@ -1,5 +1,5 @@
-hash: a82b303eaec38aef73470f1d33eb82b7c3fb7c146592150691a6a0301902286f
-updated: 2018-01-09T08:56:04.5642862-06:00
+hash: 3376e32cf5d5ceac32ebf18afeceff4ecf9a0f46049cc71655072e163c770aa9
+updated: 2018-01-13T20:38:40.8020517-06:00
 imports:
 - name: github.com/Azure/go-ntlmssp
   version: c92175d540060095c69ced311f76aea56c83ecdb
@@ -80,7 +80,7 @@ imports:
 - name: github.com/mitchellh/iochan
   version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
 - name: github.com/mitchellh/mapstructure
-  version: 06020f85339e21b2478f756a78e295255ffa4d6a
+  version: b4575eea38cca1123ec2dc90c26529b5c5acfcff
 - name: github.com/mitchellh/multistep
   version: 391576a156a54cfbb4cf5d5eda40cf6ffa3e3a4d
 - name: github.com/mitchellh/reflectwalk
@@ -94,14 +94,15 @@ imports:
 - name: github.com/pkg/errors
   version: e881fd58d78e04cf6d0de1217f8707c8cc2249bc
 - name: github.com/pkg/sftp
-  version: 30b632cf56a40e07133af5255a01cadc216933ec
+  version: 72ec6e85598d2480c30f633c154b07b6c112eade
 - name: github.com/sandwichcloud/deli-cli
-  version: 2fb69365253f8bff2b40b68fd15123093ad54ef1
+  version: 0140b24c73e59e3151fbdc2fb33f203b906688ec
   subpackages:
   - api
   - api/client
   - api/client/auth
-  - api/client/builtin
+  - api/client/database
+  - api/client/flavor
   - api/client/image
   - api/client/instance
   - api/client/keypair
@@ -115,11 +116,11 @@ imports:
   - metadata
   - utils
 - name: github.com/satori/go.uuid
-  version: 879c5887cd475cd7864858769793b2ceb0d44feb
+  version: f58768cc1a7a7e77a3bd49e98cdd21419399b6a3
 - name: github.com/tarm/serial
   version: fdb95b50820e236308fffabc41ccf23f3056be77
 - name: github.com/ugorji/go
-  version: ccfe18359b55b97855cee1d3f74e5efbda4869dc
+  version: 9831f2c3ac1068a78f50999a30db84270f647af6
   subpackages:
   - codec
 - name: golang.org/x/crypto
