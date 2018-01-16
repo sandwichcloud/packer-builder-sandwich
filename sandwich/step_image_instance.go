@@ -21,7 +21,7 @@ func (s *StepImageInstance) Run(state multistep.StateBag) multistep.StepAction {
 
 	instanceClient := config.sandwichClient.Instance()
 	imageClient := config.sandwichClient.Image()
-	image, err := instanceClient.ActionImage(instance.ID.String(), config.ImageName, "PRIVATE")
+	image, err := instanceClient.ActionImage(instance.ID.String(), config.ImageName)
 	if err != nil {
 		err := fmt.Errorf("Error imaging instance: %s", err)
 		state.Put("error", err)
@@ -46,6 +46,26 @@ func (s *StepImageInstance) Run(state multistep.StateBag) multistep.StepAction {
 	}
 
 	state.Put("imageID", image.ID.String())
+
+	if config.ImagePublic {
+		err := imageClient.ActionSetVisibility(image.ID.String(), true)
+		if err != nil {
+			err := fmt.Errorf("Error making image public: %s", err)
+			state.Put("error", err)
+			ui.Error(err.Error())
+			return multistep.ActionHalt
+		}
+	} else {
+		for _, memberID := range config.ImageMembers {
+			err := imageClient.MemberAdd(image.ID.String(), memberID)
+			if err != nil {
+				err := fmt.Errorf("Error adding image member: %s", err)
+				state.Put("error", err)
+				ui.Error(err.Error())
+				return multistep.ActionHalt
+			}
+		}
+	}
 
 	ui.Say("Image has been created.")
 
