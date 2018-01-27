@@ -36,15 +36,11 @@ func (s *StepRunInstance) Run(state multistep.StateBag) multistep.StepAction {
 		keyPairIDs = append(keyPairIDs, keyPairID.(string))
 	}
 
-	if s.UserData != "" {
-		s.Tags["user-data"] = s.UserData
-	}
-
 	if s.Tags == nil {
 		s.Tags = make(map[string]string)
 	}
 
-	instance, err := instanceClient.Create(s.Name, s.SourceImageID, config.RegionID, "", s.NetworkID, "", s.FlavorID, s.Disk, keyPairIDs, s.Tags)
+	instance, err := instanceClient.Create(s.Name, s.SourceImageID, config.RegionID, "", s.NetworkID, "", s.FlavorID, s.Disk, keyPairIDs, s.Tags, s.UserData)
 	if err != nil {
 		err := fmt.Errorf("Error creating source instance: %s", err)
 		state.Put("error", err)

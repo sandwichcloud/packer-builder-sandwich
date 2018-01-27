@@ -1,5 +1,5 @@
-hash: f10eebcb5626b953fac7a6a6a1df87070d955b7c1c60a04ca9e0b95058132644
-updated: 2018-01-15T22:32:59.5281924-06:00
+hash: 245cd3847b999954fb525c6f6ef5a30deffb0c1f976ec6fa783241df9b398469
+updated: 2018-01-27T13:25:42.286048-06:00
 imports:
 - name: github.com/Azure/go-ntlmssp
   version: c92175d540060095c69ced311f76aea56c83ecdb
@@ -92,11 +92,11 @@ imports:
   subpackages:
   - winrmcp
 - name: github.com/pkg/errors
-  version: e881fd58d78e04cf6d0de1217f8707c8cc2249bc
+  version: 30136e27e2ac8d167177e8a583aa4c3fea5be833
 - name: github.com/pkg/sftp
-  version: 72ec6e85598d2480c30f633c154b07b6c112eade
+  version: 738e088bbd93f7080e538c2a1ca50fadfc5183c0
 - name: github.com/sandwichcloud/deli-cli
-  version: 851787e73850ccae3d209fcbf9d8bbc303516f36
+  version: 638044770fb3e97805e66f123a6531f9a917d160
   subpackages:
   - api
   - api/client
@@ -112,6 +112,7 @@ imports:
   - api/client/region
   - api/client/role
   - api/client/serviceAccount
+  - api/client/volume
   - api/client/zone
   - metadata
   - utils
@@ -143,7 +144,7 @@ imports:
   - html/charset
   - proxy
 - name: golang.org/x/oauth2
-  version: 30785a2c434e431ef7c507b54617d6a951d5f2b4
+  version: a032972e28060ca4f5644acffae3dfc268cc09db
   subpackages:
   - internal
 - name: golang.org/x/sys
