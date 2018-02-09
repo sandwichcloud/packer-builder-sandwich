@@ -1,5 +1,5 @@
-hash: 245cd3847b999954fb525c6f6ef5a30deffb0c1f976ec6fa783241df9b398469
-updated: 2018-01-27T13:25:42.286048-06:00
+hash: 79f732c3c51a36dbbe64e4c4d10c6feb3af32005aedfeac74066f492804f4a78
+updated: 2018-02-08T20:11:05.5861198-06:00
 imports:
 - name: github.com/Azure/go-ntlmssp
   version: c92175d540060095c69ced311f76aea56c83ecdb
@@ -22,7 +22,7 @@ imports:
 - name: github.com/dylanmei/iso8601
   version: 2075bf119b58e5576c6ed9f867b8f3d17f2e54d4
 - name: github.com/golang/protobuf
-  version: 4bd1920723d7b7c925de087aa32e2187708897f7
+  version: bbd03ef6da3a115852eaf24c8a1c46aeb39aa175
   subpackages:
   - proto
 - name: github.com/hashicorp/errwrap
@@ -80,7 +80,7 @@ imports:
 - name: github.com/mitchellh/iochan
   version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
 - name: github.com/mitchellh/mapstructure
-  version: b4575eea38cca1123ec2dc90c26529b5c5acfcff
+  version: a4e142e9c047c904fa2f1e144d9a84e6133024bc
 - name: github.com/mitchellh/multistep
   version: 391576a156a54cfbb4cf5d5eda40cf6ffa3e3a4d
 - name: github.com/mitchellh/reflectwalk
@@ -94,9 +94,9 @@ imports:
 - name: github.com/pkg/errors
   version: 30136e27e2ac8d167177e8a583aa4c3fea5be833
 - name: github.com/pkg/sftp
-  version: 738e088bbd93f7080e538c2a1ca50fadfc5183c0
+  version: 22e9c1ccc02fc1b9fa3264572e49109b68a86947
 - name: github.com/sandwichcloud/deli-cli
-  version: 638044770fb3e97805e66f123a6531f9a917d160
+  version: 8ad107b1a2715993711249cbf1c9a5368bac4918
   subpackages:
   - api
   - api/client
@@ -121,21 +121,23 @@ imports:
 - name: github.com/tarm/serial
   version: fdb95b50820e236308fffabc41ccf23f3056be77
 - name: github.com/ugorji/go
-  version: 9831f2c3ac1068a78f50999a30db84270f647af6
+  version: b5b949564861e43a03568a0b134c135cf318e5c8
   subpackages:
   - codec
 - name: golang.org/x/crypto
-  version: 81e90905daefcd6fd217b62423c0908922eadb30
+  version: 5119cf507ed5294cc409c092980c7497ee5d6fd2
   subpackages:
   - curve25519
   - ed25519
   - ed25519/internal/edwards25519
+  - internal/chacha20
   - md4
+  - poly1305
   - ssh
   - ssh/agent
   - ssh/terminal
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: f5dfe339be1d06f81b22525fe34671ee7d2c8904
   subpackages:
   - context
   - context/ctxhttp
@@ -144,16 +146,16 @@ imports:
   - html/charset
   - proxy
 - name: golang.org/x/oauth2
-  version: a032972e28060ca4f5644acffae3dfc268cc09db
+  version: 543e37812f10c46c622c9575afd7ad22f22a12ba
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 7ddbeae9ae08c6a06a59597f0c9edbc5ff2444ce
+  version: 37707fdb30a5b38865cfb95e5aab41707daec7fd
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: b19bf474d317b857955b12035d2c5acb57ce8b01
+  version: 4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1
   subpackages:
   - encoding
   - encoding/charmap
