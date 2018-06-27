@@ -6,7 +6,7 @@ import (
 	"os"
 
 	packerssh "github.com/hashicorp/packer/communicator/ssh"
-	"github.com/mitchellh/multistep"
+	"github.com/hashicorp/packer/helper/multistep"
 	"github.com/sandwichcloud/deli-cli/api"
 	"github.com/sandwichcloud/deli-cli/api/client"
 	"golang.org/x/crypto/ssh"
@@ -18,9 +18,8 @@ func CommHost(networkPortClient client.NetworkPortClientInterface) func(multiste
 		instance := state.Get("instance").(*api.Instance)
 		networkPort, err := networkPortClient.Get(instance.NetworkPortID.String())
 		if err != nil {
-			return "", fmt.Errorf("Error finding network port for instance %s: %s", instance.ID.String(), err)
+			return "", fmt.Errorf("Error finding network port for instance %s: %s", instance.Name, err)
 		}
-
 		return networkPort.IPAddress.String(), nil
 	}
 }

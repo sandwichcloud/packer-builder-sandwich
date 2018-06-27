@@ -1,6 +1,7 @@
 package sandwich
 
 import (
+	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -8,8 +9,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"github.com/hashicorp/packer/helper/multistep"
 	"github.com/hashicorp/packer/packer"
-	"github.com/mitchellh/multistep"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -17,14 +18,14 @@ type StepKeyPair struct {
 	Debug                bool
 	SSHAgentAuth         bool
 	TemporaryKeyPairName string
-	KeyPairID            string
+	KeyPairName          string
 	PrivateKeyFile       string
 
-	doCleanup          bool
-	temporaryKeyPairID string
+	doCleanup            bool
+	temporaryKeyPairName string
 }
 
-func (s *StepKeyPair) Run(state multistep.StateBag) multistep.StepAction {
+func (s *StepKeyPair) Run(_ context.Context, state multistep.StateBag) multistep.StepAction {
 	ui := state.Get("ui").(packer.Ui)
 
 	if s.PrivateKeyFile != "" {
@@ -34,20 +35,20 @@ func (s *StepKeyPair) Run(state multistep.StateBag) multistep.StepAction {
 			return multistep.ActionHalt
 		}
 
-		state.Put("keyPairID", s.KeyPairID)
+		state.Put("keyPairName", s.KeyPairName)
 		state.Put("privateKey", string(privateKeyBytes))
 		return multistep.ActionContinue
 	}
 
-	if s.SSHAgentAuth && s.KeyPairID != "" {
-		ui.Say(fmt.Sprintf("Using SSH Agent for existing key pair %s", s.KeyPairID))
-		state.Put("keyPairID", s.KeyPairID)
+	if s.SSHAgentAuth && s.KeyPairName != "" {
+		ui.Say(fmt.Sprintf("Using SSH Agent for existing key pair %s", s.KeyPairName))
+		state.Put("keyPairName", s.KeyPairName)
 		return multistep.ActionContinue
 	}
 
 	if s.TemporaryKeyPairName == "" {
 		ui.Say("Not using temporary keypair")
-		state.Put("keyPairID", "")
+		state.Put("keyPairName", "")
 		return multistep.ActionContinue
 	}
 
@@ -63,18 +64,18 @@ func (s *StepKeyPair) Run(state multistep.StateBag) multistep.StepAction {
 	privateKeyString := string(pem.EncodeToMemory(privateKeyPEM))
 	pubKey, err := ssh.NewPublicKey(&privateKey.PublicKey)
 
-	keypairClient := config.sandwichClient.Keypair()
+	keypairClient := config.sandwichClient.Keypair(config.ProjectName)
 	keypair, err := keypairClient.Create(s.TemporaryKeyPairName, string(ssh.MarshalAuthorizedKey(pubKey)))
 	if err != nil {
 		state.Put("error", fmt.Errorf("Error creating temporary keypair: %s", err))
 		return multistep.ActionHalt
 	}
 
-	s.temporaryKeyPairID = keypair.ID.String()
-	ui.Say(fmt.Sprintf("Created temporary keypair: %s (%s)", s.TemporaryKeyPairName, s.temporaryKeyPairID))
+	s.temporaryKeyPairName = keypair.Name
+	ui.Say(fmt.Sprintf("Created temporary keypair: %s (%s)", s.TemporaryKeyPairName, s.temporaryKeyPairName))
 
 	s.doCleanup = true
-	state.Put("keyPairID", s.temporaryKeyPairID)
+	state.Put("keyPairName", s.temporaryKeyPairName)
 	state.Put("privateKey", privateKeyString)
 
 	return multistep.ActionContinue
@@ -88,10 +89,10 @@ func (s *StepKeyPair) Cleanup(state multistep.StateBag) {
 	config := state.Get("config").(Config)
 	ui := state.Get("ui").(packer.Ui)
 
-	keypairClient := config.sandwichClient.Keypair()
+	keypairClient := config.sandwichClient.Keypair(config.ProjectName)
 
-	ui.Say(fmt.Sprintf("Deleting temporary keypair: %s (%s)", s.TemporaryKeyPairName, s.temporaryKeyPairID))
-	err := keypairClient.Delete(s.temporaryKeyPairID)
+	ui.Say(fmt.Sprintf("Deleting temporary keypair: %s (%s)", s.TemporaryKeyPairName, s.temporaryKeyPairName))
+	err := keypairClient.Delete(s.temporaryKeyPairName)
 	if err != nil {
 		ui.Error(fmt.Sprintf("Error cleaning up keypair. Please delete the key manually: %s", s.TemporaryKeyPairName))
 	}

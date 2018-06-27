@@ -7,9 +7,7 @@ import (
 )
 
 type ImageConfig struct {
-	ImageName    string   `mapstructure:"image_name"`
-	ImagePublic  bool     `mapstructure:"image_public"`
-	ImageMembers []string `mapstructure:"image_members"`
+	ImageName string `mapstructure:"image_name"`
 }
 
 func (c *ImageConfig) Prepare(ctx *interpolate.Context) []error {

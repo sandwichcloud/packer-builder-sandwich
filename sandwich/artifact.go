@@ -8,7 +8,7 @@ import (
 )
 
 type Artifact struct {
-	ImageID        string
+	ImageName      string
 	BuilderIdValue string
 
 	ImageClient client.ImageClientInterface
@@ -23,11 +23,11 @@ func (a *Artifact) Files() []string {
 }
 
 func (a *Artifact) Id() string {
-	return a.ImageID
+	return a.ImageName
 }
 
 func (a *Artifact) String() string {
-	return fmt.Sprintf("An image was created: %v", a.ImageID)
+	return fmt.Sprintf("An image was created: %v", a.ImageName)
 }
 
 func (a *Artifact) State(name string) interface{} {
@@ -35,6 +35,6 @@ func (a *Artifact) State(name string) interface{} {
 }
 
 func (a *Artifact) Destroy() error {
-	log.Printf("Destroying image: %s", a.ImageID)
-	return a.ImageClient.Delete(a.ImageID)
+	log.Printf("Destroying image: %s", a.ImageName)
+	return a.ImageClient.Delete(a.ImageName)
 }

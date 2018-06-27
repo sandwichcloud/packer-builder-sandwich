@@ -6,9 +6,9 @@ import (
 	"github.com/hashicorp/packer/common"
 	"github.com/hashicorp/packer/helper/communicator"
 	"github.com/hashicorp/packer/helper/config"
+	"github.com/hashicorp/packer/helper/multistep"
 	"github.com/hashicorp/packer/packer"
 	"github.com/hashicorp/packer/template/interpolate"
-	"github.com/mitchellh/multistep"
 )
 
 const BuilderId = "sandwich"
@@ -60,21 +60,21 @@ func (builder *Builder) Run(ui packer.Ui, hook packer.Hook, cache packer.Cache) 
 			Debug:                builder.config.PackerDebug,
 			SSHAgentAuth:         builder.config.RunConfig.Comm.SSHAgentAuth,
 			TemporaryKeyPairName: builder.config.TemporaryKeyPairName,
-			KeyPairID:            builder.config.SSHKeyPairID,
+			KeyPairName:          builder.config.SSHKeyPairName,
 			PrivateKeyFile:       builder.config.RunConfig.Comm.SSHPrivateKey,
 		},
 		&StepRunInstance{
-			Name:          builder.config.ImageName,
-			FlavorID:      builder.config.FlavorID,
-			Disk:          builder.config.Disk,
-			SourceImageID: builder.config.SourceImageID,
-			NetworkID:     builder.config.NetworkID,
-			UserData:      builder.config.UserData,
-			Tags:          builder.config.Tags,
+			Name:            builder.config.InstanceName,
+			FlavorName:      builder.config.FlavorName,
+			Disk:            builder.config.Disk,
+			SourceImageName: builder.config.SourceImageName,
+			NetworkName:     builder.config.NetworkName,
+			UserData:        builder.config.UserData,
+			Tags:            builder.config.Tags,
 		},
 		&communicator.StepConnect{
 			Config: &builder.config.RunConfig.Comm,
-			Host:   CommHost(builder.config.sandwichClient.NetworkPort()),
+			Host:   CommHost(builder.config.sandwichClient.NetworkPort(builder.config.ProjectName)),
 			SSHConfig: SSHConfig(
 				builder.config.RunConfig.Comm.SSHAgentAuth,
 				builder.config.RunConfig.Comm.SSHUsername,
@@ -99,9 +99,9 @@ func (builder *Builder) Run(ui packer.Ui, hook packer.Hook, cache packer.Cache) 
 	}
 
 	artifact := &Artifact{
-		ImageID:        state.Get("imageID").(string),
+		ImageName:      state.Get("imageName").(string),
 		BuilderIdValue: BuilderId,
-		ImageClient:    builder.config.sandwichClient.Image(),
+		ImageClient:    builder.config.sandwichClient.Image(builder.config.ProjectName),
 	}
 
 	return artifact, nil
